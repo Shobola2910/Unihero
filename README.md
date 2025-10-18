@@ -1,37 +1,32 @@
-# UniHero — For Students, By Students 🎓
+# UniHero — Production-ready (SEO + Telegram Contact)
 
-Next.js 14 + Tailwind + Framer Motion. SEO-ready and GitHub-ready.
+This project is ready to deploy at **https://unihero.uz**.
 
-## Local Dev
+## SEO
+- `robots.ts` and `sitemap.ts` created
+- canonical + OpenGraph + JSON-LD set for domain https://unihero.uz
+
+## Contact Form
+Create `.env.local`:
+```
+TELEGRAM_BOT_TOKEN=YOUR_BOTFATHER_TOKEN
+TELEGRAM_CHAT_ID=7711916897
+```
+> Chat ID provided by you. Make your bot an admin of the target group if needed.
+
+## Run
 ```bash
 npm install
-cp .env.local.example .env.local
-# edit .env.local
 npm run dev
 ```
 
-## Env Vars
-```
-NEXT_PUBLIC_SITE_URL=https://unihero.org
-TELEGRAM_BOT_TOKEN=YOUR_TELEGRAM_BOTFATHER_TOKEN
-TELEGRAM_CHAT_ID=7711916897
-```
-
-## Push to GitHub
+## Build
 ```bash
-git init
-git add .
-git commit -m "feat: initial unihero"
-git branch -M main
-git remote add origin https://github.com/<you>/unihero.git
-git push -u origin main
+npm run build && npm run start
 ```
 
 ## Deploy (Vercel)
-- Import repo → add env vars above
-- Add your domain (unihero.org or unihero.uz)
-- DNS: A @ → 76.76.21.21, CNAME www → cname.vercel-dns.com
-
-## SEO
-- robots.ts + sitemap.ts use `NEXT_PUBLIC_SITE_URL` for canonical base
-- Submit sitemap to Google Search Console
+- `vercel` → import repo → set env vars above → attach custom domain `unihero.uz`.
+```
+A  @  CNAME  cname.vercel-dns.com
+```

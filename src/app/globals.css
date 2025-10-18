@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --color-primary:#0A1F44;
+  --color-accent:#007BFF;
+  --color-surface:#EAF2FD;
+  --grad-hero: linear-gradient(135deg, #0A1F44 0%, #1C3C78 50%, #007BFF 100%);
+}
+
+/* Base */
+html, body { background-color: var(--color-primary); color: white; }
+.section-animated {
+  background: linear-gradient(120deg, rgba(10,31,68,.75), rgba(0,123,255,.25));
+  background-size: 200% 200%;
+  animation: gradientMove 16s ease infinite;
+  border: 1px solid rgba(255,255,255,.08);
+}
+.decor {
+  position: absolute; opacity: .25; pointer-events: none;
+}
