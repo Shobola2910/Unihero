@@ -3,4 +3,6 @@ export const RESOURCES = [
   { icon: "🧮", title: "Exam Prep", desc: "Summaries, formula sheets, and past papers." },
   { icon: "🕒", title: "Time Management", desc: "Planners, checklists, and focus methods." },
   { icon: "💭", title: "Motivation", desc: "Daily quotes and student success stories." }
+  export const TESTIMONIALS: { quote: string; author: string }[] = [];
+
 ];
