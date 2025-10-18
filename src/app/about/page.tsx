@@ -1,31 +1,42 @@
 import SectionHeader from "@/components/SectionHeader";
+import TimelineAuto from "@/components/TimelineAuto";
+// src/components/SectionHeader.tsx
+export default function SectionHeader({ title, subtitle }:{
+  title: string; subtitle?: string;
+}) {
+  return (
+    <div className="mb-4">
+      <h2 className="text-2xl md:text-3xl font-bold">{title}</h2>
+      {subtitle && <p className="opacity-70 mt-1">{subtitle}</p>}
+    </div>
+  );
+}
 
 export default function AboutPage() {
   return (
-    <section className="relative">
-      <div className="decor right-2 -top-2 text-3xl animate-floatY">🌱</div>
-      <SectionHeader title="Our Story" subtitle="For Students, By Students" />
-      <div className="grid gap-6 md:grid-cols-2">
-        <div className="rounded-2xl bg-white/5 p-6">
-          <h3 className="font-semibold mb-2">Mission</h3>
-          <p className="text-white/80">
-            UniHero creates a clear, encouraging, and simple learning environment for students.
-          </p>
-          <ul className="mt-3 list-disc pl-5 text-white/75">
-            <li>Support through community</li>
-            <li>Share resources and methods</li>
-            <li>Boost motivation and growth</li>
-          </ul>
-        </div>
-        <div className="rounded-2xl bg-white/5 p-6">
-          <h3 className="font-semibold mb-2">Timeline</h3>
-          <ol className="space-y-2 text-white/80">
-            <li>2023 — Launch</li>
-            <li>2024 — 1K+ student community</li>
-            <li>2025 — UniHero Bot & expanded resources</li>
-          </ol>
-        </div>
+    <div className="container mx-auto max-w-6xl px-4 py-10 space-y-10">
+      <SectionHeader
+        title="Our Story"
+        subtitle="Milestones from idea to impact"
+      />
+
+      <p className="text-white/80">
+        UniHero is a student-first initiative built around practical resources,
+        community support and smart tools. Below is our journey and growing
+        milestones — continuously updated as we scale.
+      </p>
+
+      {/* ⭐ Auto-sliding timeline */}
+      <TimelineAuto />
+
+      <div className="rounded-2xl bg-white/5 p-6 ring-1 ring-white/10">
+        <h3 className="text-xl font-semibold mb-2">What&apos;s next?</h3>
+        <p className="text-white/70">
+          We are expanding resources, events and lightweight tools to help
+          students learn faster. If you want to collaborate or contribute,
+          reach us via <a className="underline" href="https://t.me/UniHero_admin">Telegram</a>.
+        </p>
       </div>
-    </section>
+    </div>
   );
 }
