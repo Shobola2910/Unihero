@@ -88,4 +88,48 @@ export default function TimelineAuto() {
 
   return (
     <section
-      className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-[#0E1F43] t
+      className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-[#0E1F43] to-[#132A57] ring-1 ring-white/10"
+      onMouseMove={(e)=>setMouseX(e.clientX)}
+    >
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.06),transparent_60%)]" />
+      <div
+        ref={scrollerRef}
+        className="relative overflow-x-hidden select-none"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+      >
+        <div className="flex gap-5 px-6 py-8 w-[200%]">
+          {all.map((it, i) => (
+            <article
+              key={`${it.date}-${i}`}
+              className="min-w-[260px] snap-start rounded-2xl px-5 py-4
+                         bg-gradient-to-br from-[#10224D] via-[#173160] to-[#224A8E]
+                         text-white/90 ring-1 ring-white/15
+                         shadow-[0_10px_25px_rgba(0,0,0,.25)]
+                         hover:ring-white/30 hover:shadow-[0_14px_30px_rgba(0,0,0,.35)]
+                         transition-transform duration-200 ease-out hover:scale-[1.03]"
+            >
+              <div className="flex items-center gap-3 mb-1">
+                <div className="text-2xl">{it.emoji || "📌"}</div>
+                <div className="text-sm font-semibold opacity-90">{formatLabel(it.date)}</div>
+              </div>
+              <div className="font-bold text-lg leading-snug">{it.title}</div>
+              {it.image && (
+                <img
+                  src={it.image}
+                  alt=""
+                  className="mt-3 h-24 w-full object-cover rounded-xl ring-1 ring-white/10"
+                />
+              )}
+            </article>
+          ))}
+        </div>
+      </div>
+      <p className="px-6 pb-4 text-xs text-white/60">
+        Tip: cursorni o‘ngga/chopga siljitsangiz — timeline shu tomonga tezlashadi. Mobil’da – drag.
+      </p>
+    </section>
+  );
+}
