@@ -1,49 +1,99 @@
-// src/app/news/page.tsx
-import SectionHeader from "@/components/SectionHeader";
-import fs from "fs/promises";
-import path from "path";
+// src/components/Navbar.tsx
+"use client";
 
-type NewsItem = { id: string; date: string; title: string; body: string; link?: string };
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 
-async function getNews(): Promise<NewsItem[]> {
-  const file = path.join(process.cwd(), "public", "news.json");
-  try {
-    const json = await fs.readFile(file, "utf-8");
-    const data = JSON.parse(json) as NewsItem[];
-    // eng so'nggi yangiliklar tepada bo'lsin
-    return data.sort((a, b) => (a.date < b.date ? 1 : -1));
-  } catch {
-    return [];
-  }
-}
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/resources", label: "Resources" },
+  { href: "/events", label: "Events" },
+  { href: "/news", label: "News" },      // <— News link
+  { href: "/contact", label: "Contact" },
+];
 
-export default async function NewsPage() {
-  const news = await getNews();
+export default function Navbar() {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  const linkClass = (href: string) =>
+    `px-3 py-2 rounded-xl transition ${
+      pathname === href
+        ? "bg-white/10 text-white"
+        : "text-white/80 hover:text-white hover:bg-white/5"
+    }`;
 
   return (
-    <div className="container mx-auto max-w-5xl py-10">
-      <SectionHeader title="News 🗞️" subtitle="Latest updates from UniHero" />
-      {news.length === 0 ? (
-        <p className="opacity-70">No news yet.</p>
-      ) : (
-        <ul className="space-y-4">
-          {news.map((n) => (
-            <li key={n.id} className="rounded-2xl bg-white/5 p-5 backdrop-blur-sm">
-              <div className="text-sm opacity-70">{new Date(n.date).toLocaleDateString()}</div>
-              <h3 className="mt-1 text-lg font-semibold">{n.title}</h3>
-              <p className="mt-1 opacity-85">{n.body}</p>
-              {n.link ? (
-                <a
-                  href={n.link}
-                  className="mt-3 inline-block rounded-xl bg-unihero-accent px-4 py-2 font-medium hover:scale-[1.02] transition"
-                >
-                  Read more →
-                </a>
-              ) : null}
-            </li>
+    <header
+      className={`sticky top-0 z-50 transition-all ${
+        scrolled ? "backdrop-blur-md bg-[#0b1e3a]/70 shadow-sm" : "bg-transparent"
+      }`}
+    >
+      <nav className="container mx-auto flex items-center justify-between gap-4 px-4 py-3">
+        {/* Brand */}
+        <Link href="/" className="flex items-center gap-2 font-semibold text-white">
+          <span className="text-xl">🎓</span>
+          <span className="text-lg">UniHero</span>
+        </Link>
+
+        {/* Desktop nav */}
+        <div className="hidden md:flex items-center gap-1">
+          {navLinks.map((l) => (
+            <Link key={l.href} href={l.href} className={linkClass(l.href)}>
+              {l.label}
+            </Link>
           ))}
-        </ul>
+        </div>
+
+        {/* Mobile hamburger */}
+        <button
+          aria-label="Toggle menu"
+          onClick={() => setOpen((v) => !v)}
+          className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-white hover:bg-white/15 transition"
+        >
+          <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
+            <path
+              d={open ? "M4 4 L16 16 M16 4 L4 16" : "M3 6h14M3 10h14M3 14h14"}
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+        </button>
+      </nav>
+
+      {/* Mobile dropdown */}
+      {open && (
+        <div className="md:hidden border-t border-white/10 bg-[#0b1e3a]/90 backdrop-blur">
+          <div className="container mx-auto flex flex-col p-2">
+            {navLinks.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className={`px-3 py-3 rounded-xl mb-1 ${linkClass(l.href)}`}
+              >
+                {l.label}
+              </Link>
+            ))}
+            <div className="h-1" />
+          </div>
+        </div>
       )}
-    </div>
+    </header>
   );
 }
