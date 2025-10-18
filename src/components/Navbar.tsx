@@ -23,6 +23,7 @@ export default function Navbar() {
           <Link href="/resources" className={link}>Resources</Link>
           <Link href="/events" className={link}>Events</Link>
           <Link href="/contact" className={link}>Contact</Link>
+          <a href="/news" className="hover:opacity-80">News</a>
         </div>
         <button
           aria-label="Open Menu"
